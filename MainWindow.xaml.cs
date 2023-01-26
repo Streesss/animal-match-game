@@ -32,12 +32,18 @@ namespace animal_match_game1_real
             timer.Tick += Timer_Tick;
             SetUpGame();
         }
-        // 
 
         private void Timer_Tick(object slender, EventArgs e)
         {
-
+            tenthsOfSecondsElapsed++;
+            timerTextBlock.Text = (tenthsOfSecondsElapsed / 10F).ToString(".s");
+            if (matchesFound == 8)
+            {
+                timer.Stop();
+                timerTextBlock.Text += " - play again?";
+            }
         }
+
         private void SetUpGame()
         {
             List<string> animalEmoji = new List<string>()
@@ -55,11 +61,18 @@ namespace animal_match_game1_real
             
                 foreach (TextBlock textBlock in mainGrid.Children.OfType<TextBlock>())
             {
-                int index = random.Next(animalEmoji.Count);
-                string nextEmoji = animalEmoji[index];
-                textBlock.Text = nextEmoji;
-                animalEmoji.RemoveAt(index);
+                if (textBlock.Name != "timerTextBlock")
+                    {
+                    textBlock.Visibility = Visibility.Visible;
+                    int index = random.Next(animalEmoji.Count);
+                    string nextEmoji = animalEmoji[index];
+                    textBlock.Text = nextEmoji;
+                    animalEmoji.RemoveAt(index);
+                }
             }
+                timer.Start();
+            tenthsOfSecondsElapsed = 0;
+            matchesFound = 0;
         }
 
         TextBlock lastTextBlockClicked;
@@ -76,6 +89,7 @@ namespace animal_match_game1_real
             }
             else if (textBlock.Text == lastTextBlockClicked.Text)
             {
+                matchesFound++;
                 textBlock.Visibility= Visibility.Hidden;
                 findingMatch= false;
             }
@@ -83,6 +97,14 @@ namespace animal_match_game1_real
             {
                 lastTextBlockClicked.Visibility= Visibility.Visible;
                 findingMatch = false;
+            }
+        }
+
+        private void TimeTextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (matchesFound == 8)
+            {
+                SetUpGame();
             }
         }
 
