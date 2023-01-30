@@ -33,10 +33,11 @@ namespace animal_match_game1_real
             SetUpGame();
         }
 
-        private void Timer_Tick(object slender, EventArgs e)
+        private void Timer_Tick(object slender, EventArgs e) // MAKE SURE YOU SPELL EVERYTHING RIGHT ADD CAPS TO THE START OF EVERYTHING
         {
             tenthsOfSecondsElapsed++;
             timerTextBlock.Text = (tenthsOfSecondsElapsed / 10F).ToString(".s");
+            // if all 8 Emojis are got stops timer sends timer text and the measage - play again
             if (matchesFound == 8)
             {
                 timer.Stop();
@@ -45,7 +46,7 @@ namespace animal_match_game1_real
         }
 
         private void SetUpGame()
-        {
+        {  //list of all the Emojis with animal Emoji as the var
             List<string> animalEmoji = new List<string>()
             {
             "😺","😺",
@@ -58,7 +59,7 @@ namespace animal_match_game1_real
             "🐲","🐲",
             };
             Random random = new Random();
-            
+            // for each textBlock and if name is not timerTextBlock do thing
                 foreach (TextBlock textBlock in mainGrid.Children.OfType<TextBlock>())
             {
                 if (textBlock.Name != "timerTextBlock")
@@ -101,7 +102,7 @@ namespace animal_match_game1_real
         }
 
         private void TimeTextBlock_MouseDown(object sender, MouseButtonEventArgs e)
-        {
+        {// if matchesfound restart game
             if (matchesFound == 8)
             {
                 SetUpGame();
